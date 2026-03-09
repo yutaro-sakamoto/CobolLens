@@ -1,0 +1,3 @@
+[submodule "opensourcecobol4j"]
+	path = opensourcecobol4j
+	url = https://github.com/opensourcecobol/opensourcecobol4j
