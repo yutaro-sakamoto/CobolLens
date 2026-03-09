@@ -1,3 +1,14 @@
+use CobolLens::parser::parse;
+
 fn main() {
-    println!("Hello, world!");
+    let input = "\
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+       DISPLAY \"HELLO WORLD\".
+       STOP RUN.
+";
+
+    let tree = parse(input);
+    println!("{:#?}", tree);
 }
