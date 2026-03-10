@@ -42,7 +42,9 @@ impl SourceFile {
 
 impl ProgramDefinition {
     pub fn identification_division(&self) -> Option<IdentificationDivision> {
-        self.syntax.children().find_map(IdentificationDivision::cast)
+        self.syntax
+            .children()
+            .find_map(IdentificationDivision::cast)
     }
 
     pub fn procedure_division(&self) -> Option<ProcedureDivision> {

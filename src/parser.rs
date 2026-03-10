@@ -76,7 +76,8 @@ impl Parser {
     }
 
     fn parse_program_definition(&mut self) {
-        self.builder.start_node(SyntaxKind::PROGRAM_DEFINITION.into());
+        self.builder
+            .start_node(SyntaxKind::PROGRAM_DEFINITION.into());
         self.parse_identification_division();
         if self.at(SyntaxKind::PROCEDURE_KW) {
             self.parse_procedure_division();
@@ -85,7 +86,8 @@ impl Parser {
     }
 
     fn parse_identification_division(&mut self) {
-        self.builder.start_node(SyntaxKind::IDENTIFICATION_DIVISION.into());
+        self.builder
+            .start_node(SyntaxKind::IDENTIFICATION_DIVISION.into());
         // IDENTIFICATION
         self.expect(SyntaxKind::IDENTIFICATION_KW);
         // DIVISION
@@ -103,7 +105,8 @@ impl Parser {
     }
 
     fn parse_program_id_clause(&mut self) {
-        self.builder.start_node(SyntaxKind::PROGRAM_ID_CLAUSE.into());
+        self.builder
+            .start_node(SyntaxKind::PROGRAM_ID_CLAUSE.into());
         // PROGRAM-ID
         self.expect(SyntaxKind::PROGRAM_ID_KW);
         // .
@@ -119,7 +122,8 @@ impl Parser {
     }
 
     fn parse_procedure_division(&mut self) {
-        self.builder.start_node(SyntaxKind::PROCEDURE_DIVISION.into());
+        self.builder
+            .start_node(SyntaxKind::PROCEDURE_DIVISION.into());
         // PROCEDURE
         self.expect(SyntaxKind::PROCEDURE_KW);
         // DIVISION
@@ -157,7 +161,8 @@ impl Parser {
     }
 
     fn parse_display_statement(&mut self) {
-        self.builder.start_node(SyntaxKind::DISPLAY_STATEMENT.into());
+        self.builder
+            .start_node(SyntaxKind::DISPLAY_STATEMENT.into());
         // DISPLAY
         self.expect(SyntaxKind::DISPLAY_KW);
         // Operands (strings and words until DOT)

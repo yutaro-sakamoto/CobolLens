@@ -1,4 +1,4 @@
-use CobolLens::parser::parse;
+use cobol_lens::parser::parse;
 
 fn main() {
     let input = "\
