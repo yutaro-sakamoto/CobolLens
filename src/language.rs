@@ -7,7 +7,7 @@ impl rowan::Language for CobolLanguage {
     type Kind = SyntaxKind;
 
     fn kind_from_raw(raw: rowan::SyntaxKind) -> Self::Kind {
-        assert!(raw.0 <= SyntaxKind::__LAST as u16);
+        assert!(raw.0 < SyntaxKind::__LAST as u16);
         // SAFETY: SyntaxKind is repr(u16) and we checked the range
         unsafe { std::mem::transmute::<u16, SyntaxKind>(raw.0) }
     }

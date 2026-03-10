@@ -81,5 +81,28 @@ mod tests {
             .identification_division()
             .expect("IDENTIFICATION_DIVISION");
         program.procedure_division().expect("PROCEDURE_DIVISION");
+
+        // Verify all 4 divisions exist
+        let div_kinds: Vec<_> = program
+            .syntax()
+            .children()
+            .map(|c| c.kind())
+            .collect();
+        assert!(
+            div_kinds.contains(&SyntaxKind::IDENTIFICATION_DIVISION),
+            "missing IDENTIFICATION_DIVISION"
+        );
+        assert!(
+            div_kinds.contains(&SyntaxKind::ENVIRONMENT_DIVISION),
+            "missing ENVIRONMENT_DIVISION"
+        );
+        assert!(
+            div_kinds.contains(&SyntaxKind::DATA_DIVISION),
+            "missing DATA_DIVISION"
+        );
+        assert!(
+            div_kinds.contains(&SyntaxKind::PROCEDURE_DIVISION),
+            "missing PROCEDURE_DIVISION"
+        );
     }
 }
