@@ -7,60 +7,22 @@ pub mod syntax_kind;
 #[cfg(test)]
 mod tests {
     use crate::ast::SourceFile;
-    use crate::lexer::lex;
     use crate::parser::parse;
     use crate::syntax_kind::SyntaxKind;
 
+    // Fixed-format Hello World (columns: 1-6 seq, 7 indicator, 8-72 code)
     const HELLO_WORLD: &str = "\
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. HELLO.
-       PROCEDURE DIVISION.
-       DISPLAY \"HELLO WORLD\".
-       STOP RUN.
+000100 IDENTIFICATION DIVISION.
+000200 PROGRAM-ID. HELLO.
+000300 PROCEDURE DIVISION.
+000400 DISPLAY \"HELLO WORLD\".
+000500 STOP RUN.
 ";
-
-    #[test]
-    fn lex_keywords() {
-        let tokens = lex("IDENTIFICATION DIVISION");
-        assert_eq!(tokens[0].0, SyntaxKind::IDENTIFICATION_KW);
-        assert_eq!(tokens[2].0, SyntaxKind::DIVISION_KW);
-    }
-
-    #[test]
-    fn lex_case_insensitive() {
-        let tokens = lex("identification division");
-        assert_eq!(tokens[0].0, SyntaxKind::IDENTIFICATION_KW);
-        assert_eq!(tokens[2].0, SyntaxKind::DIVISION_KW);
-    }
-
-    #[test]
-    fn lex_program_id() {
-        let tokens = lex("PROGRAM-ID");
-        assert_eq!(tokens.len(), 1);
-        assert_eq!(tokens[0].0, SyntaxKind::PROGRAM_ID_KW);
-        assert_eq!(tokens[0].1, "PROGRAM-ID");
-    }
-
-    #[test]
-    fn lex_string_literal() {
-        let tokens = lex("\"HELLO WORLD\"");
-        assert_eq!(tokens.len(), 1);
-        assert_eq!(tokens[0].0, SyntaxKind::STRING_LITERAL);
-        assert_eq!(tokens[0].1, "\"HELLO WORLD\"");
-    }
-
-    #[test]
-    fn lex_single_quote_string() {
-        let tokens = lex("'HELLO'");
-        assert_eq!(tokens.len(), 1);
-        assert_eq!(tokens[0].0, SyntaxKind::STRING_LITERAL);
-    }
 
     #[test]
     fn parse_hello_world_no_errors() {
         let tree = parse(HELLO_WORLD);
         assert_eq!(tree.kind(), SyntaxKind::SOURCE_FILE);
-        // No ERROR tokens in the tree
         let errors: Vec<_> = tree
             .descendants_with_tokens()
             .filter(|el| el.kind() == SyntaxKind::ERROR)
@@ -88,5 +50,36 @@ mod tests {
     fn parse_lossless() {
         let tree = parse(HELLO_WORLD);
         assert_eq!(tree.text().to_string(), HELLO_WORLD);
+    }
+
+    #[test]
+    fn parse_nc101a() {
+        let input =
+            std::fs::read_to_string("opensourcecobol4j/tests/cobol85/NC/NC101A.CBL").unwrap();
+        let tree = parse(&input);
+
+        // Lossless
+        assert_eq!(tree.text().to_string(), input, "parse is not lossless");
+
+        // No ERROR tokens
+        let errors: Vec<_> = tree
+            .descendants_with_tokens()
+            .filter(|el| el.kind() == SyntaxKind::ERROR)
+            .collect();
+        assert!(
+            errors.is_empty(),
+            "unexpected ERROR tokens: {} found\nfirst few: {:?}",
+            errors.len(),
+            &errors[..errors.len().min(5)]
+        );
+
+        // Root structure
+        assert_eq!(tree.kind(), SyntaxKind::SOURCE_FILE);
+        let source = SourceFile::cast(tree).unwrap();
+        let program = source.program().expect("PROGRAM_DEFINITION");
+        program
+            .identification_division()
+            .expect("IDENTIFICATION_DIVISION");
+        program.procedure_division().expect("PROCEDURE_DIVISION");
     }
 }

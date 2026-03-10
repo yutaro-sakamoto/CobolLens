@@ -34,6 +34,48 @@ ast_node!(Sentence, SyntaxKind::SENTENCE);
 ast_node!(DisplayStatement, SyntaxKind::DISPLAY_STATEMENT);
 ast_node!(StopStatement, SyntaxKind::STOP_STATEMENT);
 
+// New nodes
+ast_node!(EnvironmentDivision, SyntaxKind::ENVIRONMENT_DIVISION);
+ast_node!(ConfigurationSection, SyntaxKind::CONFIGURATION_SECTION);
+ast_node!(
+    SourceComputerParagraph,
+    SyntaxKind::SOURCE_COMPUTER_PARAGRAPH
+);
+ast_node!(
+    ObjectComputerParagraph,
+    SyntaxKind::OBJECT_COMPUTER_PARAGRAPH
+);
+ast_node!(InputOutputSection, SyntaxKind::INPUT_OUTPUT_SECTION);
+ast_node!(FileControlParagraph, SyntaxKind::FILE_CONTROL_PARAGRAPH);
+ast_node!(SelectClause, SyntaxKind::SELECT_CLAUSE);
+ast_node!(DataDivision, SyntaxKind::DATA_DIVISION);
+ast_node!(FileSection, SyntaxKind::FILE_SECTION);
+ast_node!(FdEntry, SyntaxKind::FD_ENTRY);
+ast_node!(WorkingStorageSection, SyntaxKind::WORKING_STORAGE_SECTION);
+ast_node!(DataDescriptionEntry, SyntaxKind::DATA_DESCRIPTION_ENTRY);
+ast_node!(PictureClause, SyntaxKind::PICTURE_CLAUSE);
+ast_node!(ValueClause, SyntaxKind::VALUE_CLAUSE);
+ast_node!(RedefinesClause, SyntaxKind::REDEFINES_CLAUSE);
+ast_node!(UsageClause, SyntaxKind::USAGE_CLAUSE);
+ast_node!(SectionHeader, SyntaxKind::SECTION_HEADER);
+ast_node!(Paragraph, SyntaxKind::PARAGRAPH);
+ast_node!(ParagraphName, SyntaxKind::PARAGRAPH_NAME);
+ast_node!(OpenStatement, SyntaxKind::OPEN_STATEMENT);
+ast_node!(CloseStatement, SyntaxKind::CLOSE_STATEMENT);
+ast_node!(MoveStatement, SyntaxKind::MOVE_STATEMENT);
+ast_node!(PerformStatement, SyntaxKind::PERFORM_STATEMENT);
+ast_node!(GoToStatement, SyntaxKind::GO_TO_STATEMENT);
+ast_node!(IfStatement, SyntaxKind::IF_STATEMENT);
+ast_node!(ElseClause, SyntaxKind::ELSE_CLAUSE);
+ast_node!(AddStatement, SyntaxKind::ADD_STATEMENT);
+ast_node!(MultiplyStatement, SyntaxKind::MULTIPLY_STATEMENT);
+ast_node!(OnSizeErrorClause, SyntaxKind::ON_SIZE_ERROR_CLAUSE);
+ast_node!(NotOnSizeErrorClause, SyntaxKind::NOT_ON_SIZE_ERROR_CLAUSE);
+ast_node!(WriteStatement, SyntaxKind::WRITE_STATEMENT);
+ast_node!(AdvancingClause, SyntaxKind::ADVANCING_CLAUSE);
+ast_node!(ExitStatement, SyntaxKind::EXIT_STATEMENT);
+ast_node!(Condition, SyntaxKind::CONDITION);
+
 impl SourceFile {
     pub fn program(&self) -> Option<ProgramDefinition> {
         self.syntax.children().find_map(ProgramDefinition::cast)
